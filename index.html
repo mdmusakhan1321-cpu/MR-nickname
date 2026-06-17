@@ -51,7 +51,7 @@
             text-transform: uppercase;
         }
 
-        /* আরজিবি অ্যানিমেশন ও কালার শুধু এই মেইন বক্সে থাকবে */
+        /* মেইন জেনারেটর বক্স */
         .main-box {
             background: rgba(255, 255, 255, 0.03);
             border: 2px solid #00ffcc;
@@ -136,7 +136,7 @@
             gap: 12px;
         }
 
-        /* 🔒 কোড ও প্রিভিউ কার্ডের আরজিবি বর্ডার এবং অ্যানিমেশন পুরোপুরি বন্ধ করা হয়েছে */
+        /* 🔒 কোড লিস্ট কার্ডের আরজিবি বর্ডার ও নড়াচড়া পুরোপুরি বন্ধ */
         .item-card {
             background: #110c1f;
             border: 1px solid #2d2645;
@@ -158,10 +158,10 @@
             border-radius: 6px;
             padding: 10px;
             border: 1px dashed #444;
-            color: #00ffcc; /* কোডটি যেন পরিষ্কার দেখা যায় */
+            color: #00ffcc;
         }
 
-        /* গেমের ভেতরের লাইভ প্রিভিউ বক্স */
+        /* লাইভ প্রিভিউ বক্স */
         .preview-box {
             background: #080512;
             padding: 10px;
@@ -198,10 +198,6 @@
             transition: 0.2s;
         }
 
-        .copy-btn:active {
-            transform: scale(0.98);
-        }
-
         .btn-group {
             display: flex;
             justify-content: center;
@@ -232,7 +228,7 @@
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </script>
+    </style>
 </head>
 <body>
 
@@ -265,35 +261,13 @@
     <script>
         let currentMode = "nickname";
 
-        // নিকনেম ডাটা
         const leftSymbols =  ["꧁ ", "亗 ", "〆 ", "ツ ", "彡 ", "× ", "Ø ", "々 ", "ム ", "卍 ", "尺 ", "𐌔 ", "𝔖 ", "ⱴ "];
         const rightSymbols = [" ꧂", " 亗", " 〆", " ツ", " 彡", " ×", " Ø", " 々", " ム", " 卍", " 尺", " 𐌔", " 𝔖", " ⱴ"];
         const myPcLogo = "모ㅤ"; 
         const fontDicts = [
             { 'a': '𝕒', 'b': '𝕓', 'c': '𝕔', 'd': '𝕕', 'e': '𝕖', 'f': '𝕗', 'g': '𝕘', 'h': '𝕙', 'i': '𝕚', 'j': '𝕛', 'k': '𝕜', 'l': '𝕝', 'm': '𝕞', 'n': '𝕟', 'o': '𝕠', 'p': '𝕡', 'q': '𝕢', 'r': '𝕣', 's': '𝕤', 't': '𝕥', 'u': '𝕦', 'v': '𝕧', 'w': '𝕨', 'x': '𝕩', 'y': '𝕪', 'z': '𝕫', 'A': '𝔸', 'B': '𝔹', 'C': 'ℂ', 'D': '𝔻', 'E': '𝔼', 'F': '𝔽', 'G': '𝔾', 'H': 'ℍ', 'I': '𝕀', 'J': '𝕁', 'K': '𝕂', 'L': '𝕃', 'M': '𝕄', 'N': 'ℕ', 'O': '𝕆', 'P': 'ℙ', 'Q': 'ℚ', 'R': 'ℝ', 'S': '𝕊', 'T': '𝕋', 'U': '𝕌', 'V': '𝕍', 'W': '𝕎', 'X': '𝕏', 'Y': '𝕐', 'Z': 'ℤ' },
             { 'a': '𝔞', 'b': '𝔟', 'c': '𝔧', 'd': '𝔡', 'e': '𝔢', 'f': '𝔣', 'g': '𝔤', 'h': '𝔥', 'i': '𝔦', 'j': '𝔧', 'k': '𝔨', 'l': '𝔩', 'm': '𝔪', 'n': '𝔫', 'o': '𝔬', 'p': '𝔭', 'q': '𝔮', 'r': '𝔯', 's': '𝔰', 't': '𝔱', 'u': '𝔲', 'v': '𝔳', 'w': '𝔴', 'x': '𝔵', 'y': '𝔶', 'z': '𝔷', 'A': '𝔄', 'B': '𝔅', 'C': '𝔆', 'D': '𝔇', 'E': '𝔈', 'F': '𝔉', 'G': '𝔊', 'H': '𝔥', 'I': '𝔉', 'J': '𝔍', 'K': '𝔎', 'L': '𝔏', 'M': '𝔐', 'N': '𝔑', 'O': '𝔒', 'P': '𝔓', 'Q': '𝔔', 'R': '𝔖', 'S': '𝔖', 'T': '𝔗', 'U': '𝔘', 'V': '𝔙', 'W': '𝔚', 'X': '𝔛', 'Y': '𝔜', 'Z': '𝔝' },
-            { 'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ꜰ', 'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ', 's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x', 'y': 'ʏ', 'z': 'ᴢ', 'A': 'ᴀ', 'B': 'ʙ', 'C': '🇨', 'D': 'ᴅ', 'E': 'ᴇ', 'F': 'ꜰ', 'G': 'ɢ', 'H': 'ʜ', 'I': 'ɪ', 'J': 'ᴊ', 'K': 'ᴋ', 'L': 'ʟ', 'M': 'ᴍ', 'N': 'ɴ', 'O': 'ᴏ', 'P': 'ᴘ', 'Q': 'ǫ', 'R': 'ʀ', 'S': 's', 'T': 'ᴛ', 'U': 'ᴜ', 'V': 'ᴠ', 'W': 'ᴡ', 'X': 'x', 'Y': 'ʏ', 'Z': 'ᴢ' }
-        ];
-
-        // ফ্রি ফায়ার সাপোর্টেড টেক্সট সিম্বল বেইজ (নো কালার অ্যানিমেশন ইন কার্ড)
-        const bioBases = [
-            { left: "[b][c][00FFCC]◢ ", right: " ◣", label: "সাইড ট্রায়াঙ্গেল", previewHtml: (t) => `<span style="color:#00FFCC">◢ ${t} ◣</span>` },
-            { left: "[b][c][00F5FF]▶ ", right: " ◀", label: "প্লে বাটন স্টাইল", previewHtml: (t) => `<span style="color:#00F5FF">▶ ${t} ◀</span>` },
-            { left: "[b][c][FF0055]⚡ ", right: " ⚡", label: "লাইটেনিং থিম", previewHtml: (t) => `<span style="color:#ff0055">⚡</span> <span style="color:#fff">${t}</span> <span style="color:#ff0055">⚡</span>` },
-            { left: "[b][c][7000FF]✖ ", right: " ✖", label: "ক্রস এটিটিউড", previewHtml: (t) => `<span style="color:#7000FF">✖ ${t} ✖</span>` },
-            { left: "[b][c][FFD700]⚔️ ", right: " ⚔️", label: "ক্রস সোর্ড ওয়ারিয়র", previewHtml: (t) => `<span style="color:#FFD700">⚔️ ${t} ⚔️</span>` },
-            { left: "[b][c][00FF00]█ ", right: " █", label: "সলিড充ব্লক স্টাইল", previewHtml: (t) => `<span style="color:#00FF00">█ ${t} █</span>` },
-            { left: "[b][c][FF3300]🔥 ", right: " 🔥", label: "ফায়ার ভাইব", previewHtml: (t) => `<span style="color:#FF3300">🔥 ${t} 🔥</span>` },
-            { left: "[b][c][FF0055]『", right: "』", label: "ব্র্যাকেট বক্স", previewHtml: (t) => `<span style="color:#FF0055">『${t}』</span>` },
-            { left: "[b][c][00FFFF]★ ", right: " ★", label: "স্টার কিং", previewHtml: (t) => `<span style="color:#00FFFF">★ ${t} ★</span>` },
-            { left: "[b][c][FF00FF]☠️ ", right: " ☠️", label: "ডেঞ্জার স্কাল", previewHtml: (t) => `<span style="color:#FF00FF">☠️ ${t} ☠️</span>` }
-        ];
-
-        const ffColors = [
-            { hex: "FF0055", rgb: "#FF0055", label: "নেয়ন রেড" }, { hex: "00FFCC", rgb: "#00FFCC", label: "সাইয়ান" },
-            { hex: "7000FF", rgb: "#7000FF", label: "রয়্যাল পার্পল" }, { hex: "FFD700", rgb: "#FFD700", label: "গোল্ড" },
-            { hex: "00FF00", rgb: "#00FF00", label: "গ্রিন" }, { hex: "FF9900", rgb: "#FF9900", label: "অরেঞ্জ" },
-            { hex: "FF00FF", rgb: "#FF00FF", label: "ম্যাজেন্টা" }, { hex: "00FFFF", rgb: "#00FFFF", label: "আকাশী" }
+            { 'a': 'ᴀ', 'b': 'ʙ', 'c': '🇨', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ꜰ', 'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ', 's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x', 'y': 'ʏ', 'z': 'ᴢ', 'A': 'ᴀ', 'B': 'ʙ', 'C': '🇨', 'D': 'ᴅ', 'E': 'ᴇ', 'F': 'ꜰ', 'G': 'ɢ', 'H': 'ʜ', 'I': 'ɪ', 'J': 'ᴊ', 'K': 'ᴋ', 'L': 'ʟ', 'M': 'ᴍ', 'N': 'ɴ', 'O': 'ᴏ', 'P': 'ᴘ', 'Q': 'ǫ', 'R': 'ʀ', 'S': 's', 'T': 'ᴛ', 'U': 'ᴜ', 'V': 'ᴠ', 'W': 'ᴡ', 'X': 'x', 'Y': 'ʏ', 'Z': 'ᴢ' }
         ];
 
         function switchMode() {
@@ -363,12 +337,13 @@
             let customHex = document.getElementById("customBioColor").value.toUpperCase().substring(1);
             let customColorCode = "[b][c][" + customHex + "]";
 
+            var htmlContent = "";
             showLoader();
+            
             setTimeout(function() {
                 hideLoader();
-                var htmlContent = "";
 
-                // === ১. বাংলাদেশ ফ্ল্যাগ স্টাইল ===
+                // ১. বাংলাদেশ ফ্ল্যাগ
                 let bdCode = makeSafeBio("[b][c][006A4E]█[FF0000]⬤[006A4E]█ [FFFFFF]" + text);
                 htmlContent += '<div class="item-card">' +
                                     '<div style="font-size:12px; color:#00ffcc; font-weight:bold; text-align:center;">🇧🇩 BANGLADESH FLAG STYLE</div>' +
@@ -378,10 +353,10 @@
                                         '<div class="preview-title">গেমের ভেতরের লাইভ লুক</div>' +
                                         '<span style="color:#006A4E">█</span><span style="color:#FF0000; font-size:15px;">●</span><span style="color:#006A4E">█</span> <span style="color:#fff">' + text + '</span>' +
                                     '</div>' +
-                                    '<button class="copy-btn" onclick="copyText(\'' + bdCode + '\', \'বাংলাদেশ ফ্ল্যাগ বায়ো কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
+                                    '<button class="copy-btn" onclick="copyText(\'' + bdCode + '\', \'বাংলাদেশ ফ্ল্যাগ কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
                                '</div>';
 
-                // === ২. কাস্টম কালার সিলেকশন বায়ো ===
+                // ২. কাস্টম কালার
                 let customBio = makeSafeBio(customColorCode + "❖ " + text + " ❖");
                 htmlContent += '<div class="item-card">' +
                                     '<div style="font-size:12px; color:#ff0055; font-weight:bold; text-align:center;">🎨 YOUR CUSTOM COLOR BIO</div>' +
@@ -389,52 +364,38 @@
                                     '<div class="char-count">কোড লেন্থ: ' + customBio.length + '/50</div>' +
                                     '<div class="preview-box">' +
                                         '<div class="preview-title">গেমের ভেতরের লাইভ লুক</div>' +
-                                        '<span style="color:'+document.getElementById("customBioColor").value+'">❖ ' + text + ' ❖</span>' +
+                                        '<span style="color:#'+customHex+'">❖ ' + text + ' ❖</span>' +
                                     '</div>' +
-                                    '<button class="copy-btn" onclick="copyText(\'' + customBio + '\', \'কাস্টম কালার বায়ো কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
+                                    '<button class="copy-btn" onclick="copyText(\'' + customBio + '\', \'কাস্টম কালার কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
                                '</div>';
 
-                // === ৩. ৫০টি সেফ কম্বিনেশন লুপ ===
-                let totalGenerated = 0;
+                // ৩. ফিক্সড ১০টি ওপি স্টাইল লিস্ট
+                const styles = [
+                    { l: "[b][c][00FFCC]◢ ", r: " ◣", lbl: "সাইড ট্রায়াঙ্গেল", prv: (t) => `<span style="color:#00FFCC">◢ ${t} ◣</span>` },
+                    { l: "[b][c][00F5FF]▶ ", r: " ◀", lbl: "প্লে বাটন স্টাইল", prv: (t) => `<span style="color:#00F5FF">▶ ${t} ◀</span>` },
+                    { l: "[b][c][FF0055]⚡ ", r: " ⚡", lbl: "লাইটেনিং থিম", prv: (t) => `<span style="color:#ff0055">⚡</span> <span style="color:#fff">${t}</span> <span style="color:#ff0055">⚡</span>` },
+                    { l: "[b][c][7000FF]✖ ", r: " ✖", lbl: "ক্রস এটিটিউড", prv: (t) => `<span style="color:#7000FF">✖ ${t} ✖</span>` },
+                    { l: "[b][c][FFD700]⚔️ ", r: " ⚔️", lbl: "ক্রস সোর্ড ওয়ারিয়র", prv: (t) => `<span style="color:#FFD700">⚔️ ${t} ⚔️</span>` },
+                    { l: "[b][c][00FF00]█ ", r: " █", lbl: "সলিড ব্লক স্টাইল", prv: (t) => `<span style="color:#00FF00">█ ${t} █</span>` },
+                    { l: "[b][c][FF3300]🔥 ", r: " 🔥", lbl: "ফায়ার ভাইব", prv: (t) => `<span style="color:#FF3300">🔥 ${t} 🔥</span>` },
+                    { l: "[b][c][FF0055]『", r: "』", lbl: "ব্র্যাকেট বক্স", prv: (t) => `<span style="color:#FF0055">『${t}』</span>` },
+                    { l: "[b][c][00FFFF]★ ", r: " ★", lbl: "স্টার কিং", prv: (t) => `<span style="color:#00FFFF">★ ${t} ★</span>` },
+                    { l: "[b][c][FF00FF]☠️ ", r: " ☠️", lbl: "ডেঞ্জার স্কাল", prv: (t) => `<span style="color:#FF00FF">☠️ ${t} ☠️</span>` }
+                ];
 
-                for (let i = 0; i < bioBases.length; i++) {
-                    let base = bioBases[i];
-                    let finalCode = makeSafeBio(base.left + text + base.right);
-
+                for (let i = 0; i < styles.length; i++) {
+                    let st = styles[i];
+                    let finalCode = makeSafeBio(st.l + text + st.r);
                     htmlContent += '<div class="item-card">' +
-                                        '<div style="font-size:12px; color:#aaa; font-weight:bold; text-align:center;">🔥 STYLE ' + (totalGenerated + 1) + ': ' + base.label + '</div>' +
+                                        '<div style="font-size:12px; color:#aaa; font-weight:bold; text-align:center;">🔥 STYLE ' + (i+1) + ': ' + st.lbl + '</div>' +
                                         '<div class="item-text">' + finalCode + '</div>' +
                                         '<div class="char-count">কোড লেন্থ: ' + finalCode.length + '/50</div>' +
                                         '<div class="preview-box">' +
                                             '<div class="preview-title">গেমের ভেতরের লাইভ লুক</div>' +
-                                            base.previewHtml(text) +
+                                            st.prv(text) +
                                         '</div>' +
-                                        '<button class="copy-btn" onclick="copyText(\'' + finalCode + '\', \'বায়ো কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
+                                        '<button class="copy-btn" onclick="copyText(\'' + finalCode + '\', \'কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
                                    '</div>';
-                    totalGenerated++;
-                }
-
-                const symbols = ["×", "ツ", "彡", "❖", "●", "■", "★", "☠", "⚔"];
-                for (let c = 0; c < ffColors.length; c++) {
-                    for (let s = 0; s < symbols.length; s++) {
-                        if (totalGenerated >= 50) break;
-
-                        let col = ffColors[c];
-                        let sym = symbols[s];
-                        let finalCode = makeSafeBio("[b][c][" + col.hex + "]" + sym + " " + text + " " + sym);
-
-                        htmlContent += '<div class="item-card">' +
-                                            '<div style="font-size:12px; color:#aaa; font-weight:bold; text-align:center;">🔥 STYLE ' + (totalGenerated + 1) + ': ' + col.label + ' মিক্স</div>' +
-                                            '<div class="item-text">' + finalCode + '</div>' +
-                                            '<div class="char-count">কোড লেন্থ: ' + finalCode.length + '/50</div>' +
-                                            '<div class="preview-box">' +
-                                                '<div class="preview-title">গেমের ভেতরের লাইভ লুক</div>' +
-                                                '<span style="color:' + col.rgb + '">' + sym + ' ' + text + ' ' + sym + '</span>' +
-                                            '</div>' +
-                                            '<button class="copy-btn" onclick="copyText(\'' + finalCode + '\', \'কোড কপি হয়েছে!\')">📋 COPY CODE</button>' +
-                                       '</div>';
-                        totalGenerated++;
-                    }
                 }
 
                 document.getElementById("outputList").innerHTML = htmlContent;
@@ -459,4 +420,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
